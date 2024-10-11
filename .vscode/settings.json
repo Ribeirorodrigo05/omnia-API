@@ -5,6 +5,9 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
   },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
   "editor.tabSize": 2,
   "javascript.suggest.autoImports": true,
   "typescript.suggest.autoImports": true,
