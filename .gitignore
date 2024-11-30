@@ -1,0 +1,46 @@
+Here's a basic .gitignore file to exclude common files and directories from your Git repository:
+
+# Operating system files
+/.DS_Store
+/Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Build artifacts
+/build/
+/dist/
+
+# IDE-specific files
+/.idea/
+/.vscode/
+
+# Node.js and npm
+/node_modules/
+/npm-debug.log
+npm-debug.log.*
+
+# Package managers
+/yarn-error.log*
+/.yarn/
+/.pnp/
+
+# OS-specific application settings
+/config/
+/local_settings.py
+
+# Test results
+/test-results/
+
+# IDE-specific files
+/.vscode/
+/.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
