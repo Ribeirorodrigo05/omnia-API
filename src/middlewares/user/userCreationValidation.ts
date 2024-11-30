@@ -9,8 +9,6 @@ const UserSchema = z.object({
   role: z.nativeEnum(UserRole), // Valida contra enum existente
   active: z.boolean(),
   occupation: z.nativeEnum(UserOccupation),
-  created_at: z.coerce.date(),
-  updated_at: z.coerce.date(),
 });
 
 export function userCreationValidation(

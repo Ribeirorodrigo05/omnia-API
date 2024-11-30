@@ -72,6 +72,6 @@ export class User implements IUser {
   @Column({ type: "enum", enum: UserOccupation })
   occupation: UserOccupation;
 
-  @OneToMany(() => Workspace, (workspace) => workspace.created_by)
+  @OneToMany(() => Workspace, (workspace) => workspace.owner)
   workspaces: Workspace[];
 }

@@ -1,16 +1,33 @@
 import { AppDataSource } from "../../../data-source";
-import { Workspace } from "../../entities/Workspace";
+import { User } from "../../entities/User";
+import { IWorkspace, Workspace } from "../../entities/Workspace";
+
+interface CreateWorkspaceParams {
+  name: string;
+  description: string;
+  creatorId: string;
+}
 
 class WorkspaceService {
-  async createWorkspace({ name, description, creator }) {
-    const workspace = {
-      name,
-      description,
-      created_by: creator,
-    };
+  async createWorkspace({
+    name,
+    description,
+    creatorId,
+  }: CreateWorkspaceParams) {
+    const userRepository = AppDataSource.getRepository(User);
+    const owner = await userRepository.findOneBy({ id: creatorId });
+
+    if (!owner) {
+      throw new Error("Usuário não encontrado");
+    }
+
     try {
       const workspaceRepository = AppDataSource.getRepository(Workspace);
-      await workspaceRepository.save(workspace);
+      await workspaceRepository.save({
+        name,
+        owner,
+        description,
+      });
       return {
         status: 200,
         message: "ok",

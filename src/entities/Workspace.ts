@@ -9,8 +9,17 @@ import {
 } from "typeorm";
 import { User } from "./User";
 
+export interface IWorkspace {
+  id: string;
+  name: string;
+  description?: string;
+  owner: User;
+  created_at: Date;
+  updated_at: Date;
+}
+
 @Entity()
-export class Workspace {
+export class Workspace implements IWorkspace {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -24,8 +33,8 @@ export class Workspace {
     nullable: false,
     onDelete: "CASCADE",
   })
-  @JoinColumn({ name: "created_by" })
-  created_by: User;
+  @JoinColumn({ name: "owner_id" })
+  owner: User;
 
   @CreateDateColumn()
   created_at: Date;

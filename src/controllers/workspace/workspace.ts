@@ -1,15 +1,20 @@
 import { Router } from "express";
 import { workspaceService } from "../../services/workspace/workspace";
+import { authenticateToken } from "../../middlewares/authentication/authentication";
 
 const workspaceRouter = Router();
 
-workspaceRouter.post("/create", async (request, response) => {
-  const res = await workspaceService.createWorkspace(request.body);
+workspaceRouter.post(
+  "/create",
+  authenticateToken,
+  async (request, response) => {
+    const res = await workspaceService.createWorkspace(request.body);
 
-  response.status(res.status).json({
-    message: res.message,
-  });
-});
+    response.status(res.status).json({
+      message: res.message,
+    });
+  }
+);
 
 workspaceRouter.delete("/delete/:id", async (request, response) => {
   try {
