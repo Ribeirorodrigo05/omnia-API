@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 
 import { Workspace } from "./Workspace";
+import { Category } from "./Category";
 
 export enum UserRole {
   ADMIN = "admin",
@@ -16,15 +17,16 @@ export enum UserRole {
 }
 
 export interface IUser {
-  id: string;
+  id: number;
+  publicId: string;
   email: string;
   password: string;
   name: string;
   role: UserRole;
-  active: boolean;
   created_at: Date;
   updated_at: Date;
   occupation: UserOccupation;
+  status: UserStatus;
 }
 
 export enum UserOccupation {
@@ -43,10 +45,18 @@ export enum UserOccupation {
   OTHER = "Other",
 }
 
+export enum UserStatus {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+}
+
 @Entity()
 export class User implements IUser {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryGeneratedColumn("increment")
+  id: number;
+
+  @Column({ type: "uuid", unique: true, generated: "uuid" })
+  publicId: string;
 
   @Column()
   name: string;
@@ -63,15 +73,21 @@ export class User implements IUser {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column()
-  active: boolean;
-
-  @Column({ type: "enum", enum: UserRole })
+  @Column({ type: "enum", enum: UserRole, nullable: true })
   role: UserRole;
 
-  @Column({ type: "enum", enum: UserOccupation })
+  @Column({ type: "enum", enum: UserOccupation, nullable: true })
   occupation: UserOccupation;
 
   @OneToMany(() => Workspace, (workspace) => workspace.owner)
   workspaces: Workspace[];
+
+  @OneToMany(() => Category, (category) => category.owner)
+  categories: Category[];
+
+  @Column({ type: "timestamp", nullable: true })
+  deleted_at: Date | null;
+
+  @Column({ type: "enum", enum: UserStatus })
+  status: UserStatus;
 }

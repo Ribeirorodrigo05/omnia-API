@@ -44,3 +44,5 @@ npm-debug.log.*
 
 # Windows
 Thumbs.db
+.env
+package-lock.json

@@ -1,14 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { UserOccupation, UserRole } from "../../entities/User";
+import { UserOccupation, UserRole, UserStatus } from "../../entities/User";
 import { z } from "zod";
 
 const UserSchema = z.object({
-  email: z.string().email(), // Valida formato de email
+  email: z.string().email(),
   password: z.string(),
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
-  role: z.nativeEnum(UserRole), // Valida contra enum existente
-  active: z.boolean(),
-  occupation: z.nativeEnum(UserOccupation),
+  status: z.nativeEnum(UserStatus),
 });
 
 export function userCreationValidation(

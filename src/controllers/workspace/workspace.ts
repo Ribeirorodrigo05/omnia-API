@@ -16,6 +16,30 @@ workspaceRouter.post(
   }
 );
 
+workspaceRouter.get("/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+
+    if (!id) {
+      response.status(400).json({ message: "ID do workspace é obrigatório." });
+      return;
+    }
+
+    const workspace = await workspaceService.getWorkspaces(id);
+
+    if (workspace) {
+      response.status(200).json(workspace);
+    } else {
+      response.status(404).json({ message: "Workspace não encontrado." });
+    }
+  } catch (error) {
+    console.error("Error in get workspaces:", error.message);
+    response
+      .status(500)
+      .json({ message: "Erro interno do servidor.", error: error.message });
+  }
+});
+
 workspaceRouter.delete("/delete/:id", async (request, response) => {
   try {
     const { id } = request.params;
